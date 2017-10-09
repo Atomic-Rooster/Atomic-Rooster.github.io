@@ -44,21 +44,10 @@
    <pre id="widget"></pre>
    
 
-
-    <script>
-      require('./renderer.js')
-    </script>
-    <!-- Insert this line above script imports  -->
-<script>if (typeof module === 'object') {window.module = module; module = undefined;}</script>
-
-<!-- normal script imports etc  -->
     <script
   src="https://code.jquery.com/jquery-3.2.1.min.js"
   integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
   crossorigin="anonymous"></script>
-<!-- Insert this line after script imports -->
-<script>if (window.module) module = window.module;</script>
-
   <script>
 document.getElementById("widget").ondblclick = function () {
     var copy = function (e) {
