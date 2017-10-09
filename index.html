@@ -81,7 +81,7 @@ $(document).on("click", function(){
     function makeWidget(){
       if($("#link_provide").val().length != 0){
         $.ajax({
-          url: $("#link_provide").val(),
+          url: 'https://cors.io/?' + $("#link_provide").val(),
           method: "GET",
           success: function(data){
             regex = /https\:\/\/i\.pinimg\.com\/564x.*?\.jpg/
