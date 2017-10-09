@@ -88,6 +88,7 @@ $(document).on("click", function(){
             picture = regex.exec(data)[0]
 
             $("#widget").text("<div style='text-align: center;'>\n\t<a href='" + $("#link_provide").val() + "' style='position: relative; display: inline-block; height: 100%;'>\n\t\t<img class='aligncenter' src='" + picture + "'/>\n\t\t<img style='position: absolute; width: 40px; right: 5px; bottom: 5px;' src='https://misscntamination.files.wordpress.com/2017/10/p-logo.png'/>\n\t</a>\n</div>")
+            $("#link_provide").val("")
           },
           error: function(err){
             alert(err.responseText)
