@@ -1,21 +1,118 @@
+<!DOCTYPE html>
 <html>
-<head>
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous">
-</head>
-<body>
-<div class="container">
-  <h2>Atomic-Rooster</h2>
-  
-  <p>
-    Atomic Rooster    
-  </p>
+  <head>
+    <meta charset="UTF-8">
+    <title>Hello World!</title>
 
-</div>
-<script
+  </head>
+  <style>
+    input {
+      width: 500px;
+    }
+
+    pre {
+      width: calc(100% - 25px);
+      height: 100px;
+      background-color: #fdfdfd;
+      border: 1px solid grey;
+      padding: 10px;
+      white-space: pre-wrap;
+      border-radius: 5px;
+      user-select: none;
+    }
+
+    div {
+      position: absolute;
+      height: 20px;
+      width: 100%;
+      top: 0px;
+      left: 0px;
+      background-color: darkgray;
+      -webkit-app-region: drag;
+      background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAYAAAAECAYAAACtBE5DAAAALElEQVQYV2NUVFT8z4AFMBKUMDMzY1i78iWDrOJDsH5GFgaH/8Hh4mBBZBoAHLYQL7Lc25YAAAAASUVORK5CYII=) repeat;
+    }
+
+    body {
+      padding-top: 30px;
+    }
+  </style>
+  <body>
+  <div></div>
+   <input type="text" id="link_provide">
+   <button id="submit_button">Submit</button>
+   <span style="float: right;">Double Click Box To Copy</span>
+   <pre id="widget"></pre>
+   
+
+
+    <script>
+      require('./renderer.js')
+    </script>
+    <!-- Insert this line above script imports  -->
+<script>if (typeof module === 'object') {window.module = module; module = undefined;}</script>
+
+<!-- normal script imports etc  -->
+    <script
   src="https://code.jquery.com/jquery-3.2.1.min.js"
   integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
   crossorigin="anonymous"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js" integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4" crossorigin="anonymous"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js" integrity="sha384-h0AbiXch4ZDo7tp9hKZ4TsHbi047NrKGLO3SEJAg45jXxnGIfYzk4Si90RDIqNm1" crossorigin="anonymous"></script>
-</body>
+<!-- Insert this line after script imports -->
+<script>if (window.module) module = window.module;</script>
+
+  <script>
+document.getElementById("widget").ondblclick = function () {
+    var copy = function (e) {
+        e.preventDefault();
+        var text = $("#widget").text()
+        if (e.clipboardData) {
+            e.clipboardData.setData('text/plain', text.replace(/\n|\t/g, ""));
+        } else if (window.clipboardData) {
+            window.clipboardData.setData('Text', text.replace(/\n|\t/g, ""));
+        }
+        $("#widget").css("border-color", "goldenrod")
+        $("#widget").css("background-color", "lightgoldenrodyellow")
+        setTimeout(function(){
+          $("#widget").css("border-color", "grey")
+          $("#widget").css("background-color", "#fdfdfd")
+        }, 500)
+    }
+    window.addEventListener('copy', copy);
+    document.execCommand('copy');
+    window.removeEventListener('copy', copy);
+}
+
+$(window).on("focus", function(){
+  $("input").focus()
+})
+
+$(document).on("click", function(){
+  $("input").focus()
+})
+
+    function makeWidget(){
+      if($("#link_provide").val().length != 0){
+        $.ajax({
+          url: $("#link_provide").val(),
+          method: "GET",
+          success: function(data){
+            regex = /https\:\/\/i\.pinimg\.com\/564x.*?\.jpg/
+            picture = regex.exec(data)[0]
+
+            $("#widget").text("<div style='text-align: center;'>\n\t<a href='" + $("#link_provide").val() + "' style='position: relative; display: inline-block; height: 100%;'>\n\t\t<img class='aligncenter' src='" + picture + "'/>\n\t\t<img style='position: absolute; width: 40px; right: 5px; bottom: 5px;' src='https://misscntamination.files.wordpress.com/2017/10/p-logo.png'/>\n\t</a>\n</div>")
+          },
+          error: function(err){
+            alert(err.responseText)
+          }
+        })
+      }
+    }
+    $("#submit_button").on("click", makeWidget)
+    $("input").keyup(function(e){
+      if(e.keyCode == 13)
+      {
+        makeWidget()
+      }
+    });
+  </script>
+  </body>
 </html>
